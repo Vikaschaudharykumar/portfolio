@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -6,6 +7,9 @@ export default function Contact() {
     email: '',
     message: '',
   });
+
+  const [responseMessage, setResponseMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,10 +19,24 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic (e.g., sending data to server)
-    console.log(formData);
+    
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/contact', formData);
+      setResponseMessage(response.data.message);
+      setFormData({
+        fullName: '',
+        email: '',
+        message: '',
+      });
+    } catch (error) {
+      setResponseMessage('There was an error while submitting the form.');
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -27,6 +45,12 @@ export default function Contact() {
       <span className='text-md mb-4 block text-center'>
         Please fill out the form below to contact me
       </span>
+
+      {responseMessage && (
+        <div className='text-center mb-4 text-lg text-green-700'>
+          {responseMessage}
+        </div>
+      )}
 
       {/* Centered Contact Form */}
       <div className='flex justify-center'>
@@ -86,9 +110,10 @@ export default function Contact() {
             {/* Submit Button */}
             <button
               type='submit'
-              className='w-full py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-300'
+              disabled={isSubmitting}
+              className={`w-full py-3 ${isSubmitting ? 'bg-gray-400' : 'bg-blue-500'} text-white font-semibold rounded-md hover:bg-blue-700 transition duration-300`}
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>
