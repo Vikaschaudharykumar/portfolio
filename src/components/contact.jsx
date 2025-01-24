@@ -67,7 +67,7 @@ export default function Contact() {
                 name='fullName'
                 value={formData.fullName}
                 onChange={handleChange}
-                className='mt-2 p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='mt-2 p-3 border-2 bordepasswordr-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                 placeholder='Your Full Name'
                 required
               />
