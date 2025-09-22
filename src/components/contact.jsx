@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-
+import {contact_us} from "../services/controllers/contact"; 
 export default function Contact() {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -25,7 +24,7 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/contact', formData);
+      const response = await contact_us(formData);
       setResponseMessage(response.data.message);
       setFormData({
         fullName: '',
@@ -67,7 +66,7 @@ export default function Contact() {
                 name='fullName'
                 value={formData.fullName}
                 onChange={handleChange}
-                className='mt-2 p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className='mt-2 p-3 border-2 bordepasswordr-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                 placeholder='Your Full Name'
                 required
               />

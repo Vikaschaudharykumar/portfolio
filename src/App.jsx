@@ -17,7 +17,7 @@ function App() {
       <Experience />
       <Contact/>
       <Footer />
-      
+
     </>
   );
 }
